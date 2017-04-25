@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		299B85ACBB6DF70DBF832DBB /* Pods_TrackingISSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 201F0270DF95C224BAF353D6 /* Pods_TrackingISSUITests.framework */; };
+		3A4FAA7B1EAFD98A002B10B8 /* SatellitePin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4FAA7A1EAFD98A002B10B8 /* SatellitePin.swift */; };
+		3A58DC841EA806A800D9EA2F /* MarkerPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A58DC831EA806A800D9EA2F /* MarkerPin.swift */; };
+		3A78404B1EA69FAF0089542C /* PinModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3A7840491EA69FAF0089542C /* PinModel.xcdatamodeld */; };
+		3A78404D1EA6A3750089542C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A78404C1EA6A3750089542C /* CoreDataStack.swift */; };
 		3A85B1791EA006B0008DF896 /* IssClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A85B1781EA006B0008DF896 /* IssClient.swift */; };
 		3A85B17E1EA53F79008DF896 /* ISS-Satellite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A85B17D1EA53F79008DF896 /* ISS-Satellite.swift */; };
 		3AE912371EA666A000032456 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AE912361EA666A000032456 /* MapKit.framework */; };
@@ -44,6 +48,10 @@
 		201F0270DF95C224BAF353D6 /* Pods_TrackingISSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrackingISSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C30D7A230A7474A3678C4B5 /* Pods_TrackingISS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrackingISS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CBE600C3AF9C632A2F4B946 /* Pods-TrackingISSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackingISSUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrackingISSUITests/Pods-TrackingISSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		3A4FAA7A1EAFD98A002B10B8 /* SatellitePin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatellitePin.swift; sourceTree = "<group>"; };
+		3A58DC831EA806A800D9EA2F /* MarkerPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerPin.swift; sourceTree = "<group>"; };
+		3A78404A1EA69FAF0089542C /* PinModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PinModel.xcdatamodel; sourceTree = "<group>"; };
+		3A78404C1EA6A3750089542C /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		3A85B1781EA006B0008DF896 /* IssClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IssClient.swift; path = ../IssClient.swift; sourceTree = "<group>"; };
 		3A85B17D1EA53F79008DF896 /* ISS-Satellite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ISS-Satellite.swift"; sourceTree = "<group>"; };
 		3AE912361EA666A000032456 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -126,12 +134,16 @@
 			children = (
 				3A85B1781EA006B0008DF896 /* IssClient.swift */,
 				3A85B17D1EA53F79008DF896 /* ISS-Satellite.swift */,
+				3A58DC831EA806A800D9EA2F /* MarkerPin.swift */,
 				3AEEB3551E9FFDC3002F559F /* AppDelegate.swift */,
 				3AEEB3571E9FFDC3002F559F /* ViewController.swift */,
+				3A7840491EA69FAF0089542C /* PinModel.xcdatamodeld */,
+				3A78404C1EA6A3750089542C /* CoreDataStack.swift */,
 				3AEEB3591E9FFDC3002F559F /* Main.storyboard */,
 				3AEEB35C1E9FFDC3002F559F /* Assets.xcassets */,
 				3AEEB35E1E9FFDC3002F559F /* LaunchScreen.storyboard */,
 				3AEEB3611E9FFDC3002F559F /* Info.plist */,
+				3A4FAA7A1EAFD98A002B10B8 /* SatellitePin.swift */,
 			);
 			path = TrackingISS;
 			sourceTree = "<group>";
@@ -468,6 +480,10 @@
 			files = (
 				3AEEB3581E9FFDC3002F559F /* ViewController.swift in Sources */,
 				3A85B17E1EA53F79008DF896 /* ISS-Satellite.swift in Sources */,
+				3A58DC841EA806A800D9EA2F /* MarkerPin.swift in Sources */,
+				3A4FAA7B1EAFD98A002B10B8 /* SatellitePin.swift in Sources */,
+				3A78404B1EA69FAF0089542C /* PinModel.xcdatamodeld in Sources */,
+				3A78404D1EA6A3750089542C /* CoreDataStack.swift in Sources */,
 				3AEEB3561E9FFDC3002F559F /* AppDelegate.swift in Sources */,
 				3A85B1791EA006B0008DF896 /* IssClient.swift in Sources */,
 			);
@@ -743,6 +759,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3A7840491EA69FAF0089542C /* PinModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3A78404A1EA69FAF0089542C /* PinModel.xcdatamodel */,
+			);
+			currentVersion = 3A78404A1EA69FAF0089542C /* PinModel.xcdatamodel */;
+			path = PinModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 3AEEB34A1E9FFDC3002F559F /* Project object */;
 }

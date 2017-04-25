@@ -7,3 +7,8 @@
 //
 
 import Foundation
+import MapKit
+
+class SatilliteAnnotationView: MKAnnotationView {
+    
+}
