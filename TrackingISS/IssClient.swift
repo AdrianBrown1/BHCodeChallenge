@@ -29,6 +29,7 @@ class issClient {
                 let lat = position["latitude"]
                 let long = position["longitude"]
                 let timeStamp = dictionary["timestamp"]
+                
                 self.satellite = ISSSatellite.init(timeStamp: timeStamp! as! NSNumber, latitude: lat!, longitude: long!)
                 
             case .failure(let error):
@@ -39,6 +40,26 @@ class issClient {
       
         }
     
+    }
+    
+    static func getNextPassTime(lattitude: Double, longitude: Double, completionHandler: @escaping([String: Any]?, Error?) -> ()) {
+        
+        let passTimeURL = "http://api.open-notify.org/iss-pass.json?lat=\(lattitude)&lon=\(longitude)"
+        
+        Alamofire.request(passTimeURL).responseJSON { response in
+            
+            
+            if let JSON = response.result.value {
+                print("JSON: \(JSON)")
+                
+                
+                
+            }
+        }
+        
+        
+        
+        
     }
     
     
