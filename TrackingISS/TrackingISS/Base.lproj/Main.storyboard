@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -27,32 +28,37 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="whl-6j-XBZ"/>
                                 </connections>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXR-hM-Z7W">
-                                <rect key="frame" x="284" y="617" width="75" height="30"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <state key="normal" title="Locate ISS"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HCg-hs-qO5">
+                                <rect key="frame" x="330" y="26.5" width="35" height="34"/>
+                                <state key="normal" image="trackerPressed"/>
                                 <connections>
-                                    <action selector="zoomToSatellite:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OlQ-30-9N3"/>
+                                    <action selector="trackSatelliteButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aSp-d9-ppo"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="UlH-m0-VqW" secondAttribute="trailing" id="0Sd-FU-qLN"/>
-                            <constraint firstItem="UlH-m0-VqW" firstAttribute="centerX" secondItem="MXR-hM-Z7W" secondAttribute="centerX" constant="-134" id="CJ4-K0-yaY"/>
-                            <constraint firstItem="MXR-hM-Z7W" firstAttribute="centerY" secondItem="UlH-m0-VqW" secondAttribute="centerY" constant="298.5" id="PWX-Pm-ifx"/>
+                            <constraint firstItem="HCg-hs-qO5" firstAttribute="height" secondItem="UlH-m0-VqW" secondAttribute="height" multiplier="0.2" constant="-99.400000000000006" id="LmU-sb-JPB"/>
                             <constraint firstItem="UlH-m0-VqW" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="Qb4-ra-Q50"/>
                             <constraint firstItem="UlH-m0-VqW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Y15-N0-cvn"/>
+                            <constraint firstItem="HCg-hs-qO5" firstAttribute="centerX" secondItem="UlH-m0-VqW" secondAttribute="centerX" multiplier="1.8" constant="10" id="ds7-7h-nBt"/>
+                            <constraint firstItem="HCg-hs-qO5" firstAttribute="centerY" secondItem="UlH-m0-VqW" secondAttribute="centerY" multiplier="0.1" constant="10" id="jg0-ze-9kX"/>
+                            <constraint firstItem="HCg-hs-qO5" firstAttribute="width" secondItem="UlH-m0-VqW" secondAttribute="width" multiplier="0.3" constant="-77.5" id="lGl-6b-72w"/>
                             <constraint firstItem="UlH-m0-VqW" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="ub3-Vj-2kW"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="UlH-m0-VqW" id="KND-l9-baj"/>
+                        <outlet property="trackISSButton" destination="HCg-hs-qO5" id="04c-WC-A8d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-396" y="37.331334332833585"/>
+            <point key="canvasLocation" x="-1474.4000000000001" y="-3.1484257871064472"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="trackerPressed" width="100" height="106"/>
+    </resources>
 </document>
