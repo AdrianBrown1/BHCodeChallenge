@@ -12,13 +12,12 @@ import Foundation
 class ISSSatellite {
     
     
-    var timeStamp: NSNumber?
+   
     var latitude: String?
     var longitude: String?
     
-    init(timeStamp: NSNumber, latitude: String, longitude: String) {
+    init(latitude: String, longitude: String) {
         
-        self.timeStamp = timeStamp
         self.latitude = latitude
         self.longitude = longitude
         
