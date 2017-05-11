@@ -11,19 +11,19 @@ import CoreLocation
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
-    //var locationManager: CLLocationManager!
-    //CLLocationManagerDelegate
+    var locationManager: CLLocationManager!
+//    CLLocationManagerDelegate
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        //locationManager = CLLocationManager()
-       // locationManager.delegate = self
-       // locationManager.requestAlwaysAuthorization()
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
         return true
     }
 
