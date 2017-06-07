@@ -13,7 +13,6 @@ class MarkerPin: NSObject, MKAnnotation {
     
     static var annotationViewIdentifier = "pin"
     var coordinate: CLLocationCoordinate2D
-
     
     init(coordinate: CLLocationCoordinate2D) {
         self.coordinate = coordinate

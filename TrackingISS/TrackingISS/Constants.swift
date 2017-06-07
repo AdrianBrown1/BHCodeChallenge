@@ -8,6 +8,9 @@
 
 import UIKit
 
-class Constants: NSObject {
-
+struct Constants {
+    static let baseURL = "http://api.open-notify.org/"
+    static let locationURL = "iss-now.json"
+    static let passTimeURL = "iss-pass.json?"
+    
 }

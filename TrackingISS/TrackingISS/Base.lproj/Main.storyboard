@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,35 +22,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="UlH-m0-VqW">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mKV-lE-PkI">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="whl-6j-XBZ"/>
-                                </connections>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HCg-hs-qO5">
-                                <rect key="frame" x="330" y="26.5" width="35" height="34"/>
-                                <state key="normal" image="trackerPressed"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nnk-vj-swi">
+                                <rect key="frame" x="329" y="24" width="37" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="37" id="ans-Fo-DgC"/>
+                                    <constraint firstAttribute="height" constant="38" id="hms-Wb-ReV"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="tracker"/>
                                 <connections>
-                                    <action selector="trackSatelliteButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aSp-d9-ppo"/>
+                                    <action selector="trackSatelliteButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bEt-Jo-lYk"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.46488256046042387" green="0.50762190313793776" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="UlH-m0-VqW" secondAttribute="trailing" id="0Sd-FU-qLN"/>
-                            <constraint firstItem="HCg-hs-qO5" firstAttribute="height" secondItem="UlH-m0-VqW" secondAttribute="height" multiplier="0.2" constant="-99.400000000000006" id="LmU-sb-JPB"/>
-                            <constraint firstItem="UlH-m0-VqW" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="Qb4-ra-Q50"/>
-                            <constraint firstItem="UlH-m0-VqW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Y15-N0-cvn"/>
-                            <constraint firstItem="HCg-hs-qO5" firstAttribute="centerX" secondItem="UlH-m0-VqW" secondAttribute="centerX" multiplier="1.8" constant="10" id="ds7-7h-nBt"/>
-                            <constraint firstItem="HCg-hs-qO5" firstAttribute="centerY" secondItem="UlH-m0-VqW" secondAttribute="centerY" multiplier="0.1" constant="10" id="jg0-ze-9kX"/>
-                            <constraint firstItem="HCg-hs-qO5" firstAttribute="width" secondItem="UlH-m0-VqW" secondAttribute="width" multiplier="0.3" constant="-77.5" id="lGl-6b-72w"/>
-                            <constraint firstItem="UlH-m0-VqW" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="ub3-Vj-2kW"/>
+                            <constraint firstItem="nnk-vj-swi" firstAttribute="centerY" secondItem="mKV-lE-PkI" secondAttribute="centerY" multiplier="0.1" constant="10" id="5K6-BA-pvh"/>
+                            <constraint firstItem="mKV-lE-PkI" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="J1T-eh-CKZ"/>
+                            <constraint firstItem="mKV-lE-PkI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="TtG-Rv-sgR"/>
+                            <constraint firstItem="mKV-lE-PkI" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="hHQ-y1-u9V"/>
+                            <constraint firstItem="mKV-lE-PkI" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="iOl-0G-Zun"/>
+                            <constraint firstItem="nnk-vj-swi" firstAttribute="centerX" secondItem="mKV-lE-PkI" secondAttribute="centerX" multiplier="1.8" constant="10" id="kXD-zu-5Ys"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="mapView" destination="UlH-m0-VqW" id="KND-l9-baj"/>
-                        <outlet property="trackISSButton" destination="HCg-hs-qO5" id="04c-WC-A8d"/>
+                        <outlet property="mapView" destination="mKV-lE-PkI" id="geu-gE-fKF"/>
+                        <outlet property="trackISSButton" destination="nnk-vj-swi" id="Ogo-aI-h1e"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -59,6 +58,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="trackerPressed" width="100" height="106"/>
+        <image name="tracker" width="100" height="110"/>
     </resources>
 </document>
