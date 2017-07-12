@@ -47,6 +47,7 @@ class BottomView: UIView {
     }
     
     func passTimeLabelSetup() {
+        
         self.passTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         let labelHeight = self.passTimeLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.1)
         let labelWidth = self.passTimeLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0)
@@ -65,12 +66,12 @@ class BottomView: UIView {
     
     //Table View Set up.
     func tableViewSetup() {
+        
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.isHidden = true
         self.addSubview(self.tableView)
-        self.tableView.backgroundColor = UIColor(hue: 0.5778, saturation: 0.58, brightness: 0.94, alpha: 1.0) /* #64aeef */
-
+        self.tableView.backgroundColor = UIColor(hue: 0.5778, saturation: 0.58, brightness: 0.94, alpha: 1.0)
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
         let tableViewHeightConstraint = self.tableView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.7)
         let tableVieWidthConstraint = self.tableView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0)
@@ -80,33 +81,41 @@ class BottomView: UIView {
     }
     
     func updatePassTimes(){
+        
         let pins = try! coreDataStack.context.fetch(Pin.fetch)
         for pin in pins {
-            let lat = Double(pin.latitude!)
-            let long = Double(pin.longitude!)
-            DispatchQueue.global(qos: .background).async {
-                issClient.getNextPassTime(lattitude: lat!, longitude: long!, pin: pin, completionHandler: { (response, error) in
-                    
-                    //Next passTime handled here
-                    let nextPassingTimes = response?["response"] as! [Dictionary<String, AnyObject>]
-                    let nextTime = nextPassingTimes.first
-                    guard let riseTime = nextTime?["risetime"] else { return }
-                    let riseString = String(describing: riseTime)
-                    let rise = Double(riseString)
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "MM/dd/yyyy"
-                    let date = dateFormatter.string(from: Date(timeIntervalSince1970: rise!))
-                    
-                    //Passes handled here
-                    let request = response!["request"]! as! Dictionary<String, Any>
-                    let passes = String(describing: request["passes"])
-                    DispatchQueue.main.async {
-                        pin.passes = passes
-                        pin.nextPassingTime = date
-                        self.coreDataStack.saveContext()
-                        self.tableView.reloadData()
-                    }
-                })
+            if let lat = pin.latitude, let long = pin.longitude {
+            
+                guard  let latitude = NumberFormatter().number(from: lat)?.doubleValue else { return }
+                guard let longitude = NumberFormatter().number(from: long)?.doubleValue else { return }
+                DispatchQueue.global(qos: .background).async {
+                    issClient.getNextPassTime(lattitude: latitude, longitude: longitude, pin: pin, completionHandler: { (response, error) in
+                        
+                        if response != nil {
+                            if let response = response {
+                                //Next passTime handled here
+                                let nextPassingTimes = response["response"] as? [Dictionary<String, AnyObject>]
+                                let nextTime = nextPassingTimes?.first
+                                guard let riseTime = nextTime?["risetime"] else { return }
+                                let riseString = String(describing: riseTime)
+                                let rise = NumberFormatter().number(from: riseString)?.doubleValue
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "MM/dd/yyyy"
+                                let date = dateFormatter.string(from: Date(timeIntervalSince1970: rise!))
+                                //Passes handled here
+                                let passes = String(describing: response["passes"])
+                                DispatchQueue.main.async {
+                                    pin.passes = passes
+                                    pin.nextPassingTime = date
+                                    self.coreDataStack.saveContext()
+                                    self.tableView.reloadData()
+                                }
+                            }
+                        }else {
+                            print("Error: \(String(describing: error))")
+                        }
+                    })
+                }
             }
         }
     }
@@ -128,22 +137,25 @@ extension BottomView:  UITableViewDelegate, UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "Cell")
+    
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+        if cell == nil {
+            cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
+        }
         let pins = try! coreDataStack.context.fetch(Pin.fetch)
         if pins.count == 0 {
-            cell.textLabel?.text = "No Saved Locations"
-            cell.detailTextLabel?.text = "Hold on loation to save pin."
-      
+            cell?.textLabel?.text = "No Saved Locations"
+            cell?.detailTextLabel?.text = "Hold on loation to save pin."
         }else {
             let pin = pins[indexPath.row]
-            cell.textLabel?.text = pin.name
-            cell.detailTextLabel?.text = "ISS Next PassTime \(pin.nextPassingTime!)"
+            cell?.textLabel?.text = pin.name!
+            cell?.detailTextLabel?.text = "ISS Next PassTime \(pin.nextPassingTime!)"
         }
-        cell.textLabel?.textColor = UIColor.white
-        cell.textLabel?.font.withSize(20)
-        cell.textLabel?.font.withSize(20)
-        cell.detailTextLabel?.textColor = UIColor.white
-        cell.backgroundColor = UIColor(hue: 0.5778, saturation: 0.58, brightness: 0.94, alpha: 1.0) /* #64aeef */
-        return cell
+        cell?.textLabel?.textColor = UIColor.white
+        cell?.textLabel?.font.withSize(20)
+        cell?.textLabel?.font.withSize(20)
+        cell?.detailTextLabel?.textColor = UIColor.white
+        cell?.backgroundColor = UIColor(hue: 0.5778, saturation: 0.58, brightness: 0.94, alpha: 1.0) /* #64aeef */
+        return cell!
     }
 }

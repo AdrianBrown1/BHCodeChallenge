@@ -27,6 +27,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDeleg
     @IBOutlet weak var trackISSButton: UIButton!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         //coreLoacation setup
         locationManager = CLLocationManager()
@@ -48,6 +49,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDeleg
     
     //BottomView setup
     func bottomViewSetUp() {
+        
         let width = self.mapView.frame.width
         let height = self.mapView.frame.height / 2
         let mapX = self.mapView.frame.origin.x
@@ -72,17 +74,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDeleg
     }
     
     //Map setup
-    func mapPinSetUp(){
+    func mapPinSetUp() {
+        
         mapView.delegate = self
         mapView.showsUserLocation = true
         let pins = try! coreDataStack.context.fetch(Pin.fetch)
         print(pins.count)
         if pins.count > 0 {
             for pin in pins {
-                let pinLat = Double(pin.latitude!)
-                let pinLong = Double(pin.longitude!)
-                let markerPin = MarkerPin(coordinate: CLLocationCoordinate2D(latitude: pinLat!, longitude: pinLong!))
-                mapView.addAnnotation(markerPin)
+                if let pinLat = pin.latitude, let pinLong = pin.longitude {
+                    
+                    let latitude = NumberFormatter().number(from: pinLat)?.doubleValue
+                    let longitude = NumberFormatter().number(from: pinLong)?.doubleValue
+                    
+                    if let unWrappedLat = latitude, let unWrappedLong = longitude {
+                        let markerPin = MarkerPin(coordinate: CLLocationCoordinate2D(latitude: unWrappedLat, longitude: unWrappedLong))
+                        mapView.addAnnotation(markerPin)
+                    }
+                }
             }
             mapView.showAnnotations(mapView.annotations, animated: true)
         }
@@ -93,24 +102,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDeleg
     }
     
     //ISS Satellite Setup
-    func loadCurrentLocation(){
+    func loadCurrentLocation() {
+        
         let currentLocation = self.locationManager.location?.coordinate
         let pins = try! coreDataStack.context.fetch(Pin.fetch)
         if pins.count > 0 {
             let lat = String(self.satelliteMapPin.coordinate.latitude)
             let long = String(self.satelliteMapPin.coordinate.longitude)
             for pin in pins {
-                if(lat == pin.latitude! && long == pin.longitude!) {
-                    let alertController = UIAlertController(title: "Look up", message: "The ISS satellite is above \(String(describing: pin.name))!", preferredStyle: UIAlertControllerStyle.alert)
-                    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
-                        print("Ok")
+                if let pinLat = pin.latitude, let pinLong = pin.longitude {
+                    
+                    if(lat == pinLat && long == pinLong) {
+                        
+                        let alertController = UIAlertController(title: "Look up", message: "The ISS satellite is above \(String(describing: pin.name))!", preferredStyle: UIAlertControllerStyle.alert)
+                        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
+                            print("Ok")
+                        }
+                        alertController.addAction(okAction)
+                        self.present(alertController, animated: true, completion: nil)
                     }
-                    alertController.addAction(okAction)
-                    self.present(alertController, animated: true, completion: nil)
                 }
             }
         }
-        if(self.satelliteMapPin.coordinate.latitude == currentLocation?.latitude && self.satelliteMapPin.coordinate.longitude == currentLocation?.longitude){
+        if(self.satelliteMapPin.coordinate.latitude == currentLocation?.latitude && self.satelliteMapPin.coordinate.longitude == currentLocation?.longitude) {
             let alertController = UIAlertController(title: "Look up", message: "The ISS satellite is right above you!", preferredStyle: UIAlertControllerStyle.alert)
             let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
                 print("Ok")
@@ -119,22 +133,35 @@ class ViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDeleg
             self.present(alertController, animated: true, completion: nil)
         }
         issClient.getISSCurrentLocation { [weak self] (response, error) in
-            let responseDict = response?["iss_position"] as! Dictionary<String, String>
-            let latString = responseDict["latitude"]!
-            let longString = responseDict["longitude"]!
-            let lat = Double(responseDict["latitude"]!)
-            let long = Double(responseDict["longitude"]!)
-            _ = ISSSatellite.init(latitude: latString, longitude: longString)
-            DispatchQueue.main.async(execute: {
-                let satelliteLocation = CLLocationCoordinate2DMake(lat!, long!)
-                self?.satelliteMapPin.coordinate = satelliteLocation
-                self?.mapView.removeAnnotation((self?.satelliteMapPin)!)
-                self?.mapView.addAnnotation((self?.satelliteMapPin)!)
-            })
+            if response != nil {
+                
+                if let response = response {
+                    
+                    if  let responseDict = response["iss_position"] as? Dictionary<String, Any> {
+                        
+                        guard let latString = responseDict["latitude"] as? String else { return }
+                        guard let longString = responseDict["longitude"] as? String else { return }
+                        guard let lat = NumberFormatter().number(from: latString)?.doubleValue else { return }
+                        guard let long = NumberFormatter().number(from: longString)?.doubleValue else { return }
+                        _ = ISSSatellite.init(latitude: latString, longitude: longString)
+                        DispatchQueue.main.async(execute: {
+                            
+                            let satelliteLocation = CLLocationCoordinate2DMake(lat, long)
+                            self?.satelliteMapPin.coordinate = satelliteLocation
+                            self?.mapView.removeAnnotation((self?.satelliteMapPin)!)
+                            self?.mapView.addAnnotation((self?.satelliteMapPin)!)
+                        })
+                    }
+                }
+                
+            }else {
+                print("Error: \(String(describing: error))")
+            }
         }
     }
     
     @IBAction func trackSatelliteButtonTapped(_ sender: Any) {
+        
         let pinToZoomOn = self.satelliteMapPin.coordinate
         let span = MKCoordinateSpanMake(30.0, 30.0)
         let region = MKCoordinateRegion(center: pinToZoomOn, span: span)
@@ -143,7 +170,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDeleg
     
     //Swipe Gestures
     func handleTapGesture(gesture: UISwipeGestureRecognizer) {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer{
+        
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.up:
                 print("Swiped up")
@@ -166,7 +194,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDeleg
         }
     }
     
-    func handleLongPress(_ getstureRecognizer : UIGestureRecognizer){
+    func handleLongPress(_ getstureRecognizer : UIGestureRecognizer) {
+        
         if getstureRecognizer.state != .began { return }
         let alert = UIAlertController(title: "Location Name", message: "Please enter name for Location.", preferredStyle: .alert)
         let touchPoint = getstureRecognizer.location(in: self.mapView)
@@ -190,25 +219,30 @@ class ViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDeleg
             DispatchQueue.global(qos: .background).async {
                 issClient.getNextPassTime(lattitude: lat, longitude: long, pin: pin, completionHandler: { (response, error) in
                     
-                    //Next passTime handled here
-                    let nextPassingTimes = response?["response"] as! [Dictionary<String, AnyObject>]
-                    let nextTime = nextPassingTimes.first
-                    // let duration = String(describing: nextTime?["duration"])
-                    guard let riseTime = nextTime?["risetime"] else { return }
-                    let riseString = String(describing: riseTime)
-                    let rise = Double(riseString)
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "MM/dd/yyyy"
-                    let date = dateFormatter.string(from: Date(timeIntervalSince1970: rise!))
-                    
-                    //Passes handled here
-                    let request = response!["request"]! as! Dictionary<String, Any>
-                    let passes = String(describing: request["passes"])
-                    DispatchQueue.main.async {
-                        pin.passes = passes
-                        pin.nextPassingTime = date
-                        self.coreDataStack.saveContext()
-                        self.bottomView.tableView.reloadData()
+                    if response != nil {
+                        // Handle respone & error
+                        if let response = response {
+                            
+                            //Next passTime handled here
+                            let nextPassingTimes = response["response"] as? [Dictionary<String, AnyObject>]
+                            let nextTime = nextPassingTimes?.first
+                            guard let riseTime = nextTime?["risetime"] else { return }
+                            let riseString = String(describing: riseTime)
+                            let rise = NumberFormatter().number(from: riseString)?.doubleValue
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "MM/dd/yyyy"
+                            let date = dateFormatter.string(from: Date(timeIntervalSince1970: rise!))
+                            //Passes handled here
+                            let passes = String(describing: response["passes"])
+                            DispatchQueue.main.async {
+                                pin.passes = passes
+                                pin.nextPassingTime = date
+                                self.coreDataStack.saveContext()
+                                self.bottomView.tableView.reloadData()
+                            }
+                        }
+                    }else {
+                        print("Error: \(String(describing: error))")
                     }
                 })
             }
@@ -218,6 +252,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDeleg
     
     //Custom annotation setup.
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
         var annotationView: MKAnnotationView?
         switch annotation {
         case is SatelliteMapPin:
@@ -247,6 +282,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate,MKMapViewDeleg
     
     //Zoom to pin selected
     func mapView(_: MKMapView, didSelect view: MKAnnotationView) {
+        
         let pinToZoomOn = view.annotation
         let span = MKCoordinateSpanMake(55.0, 55.0)
         let region = MKCoordinateRegion(center: pinToZoomOn!.coordinate, span: span)
